@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Strategy Capstone — Capsim Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy: #10233f; --deep-blue: #16376b; --blue: #2f6fed; --sky: #8fc6ff;
+    --pale-blue: #eaf2ff; --paper: #f7f9fd; --ember: #e8703a; --ember-soft: #ffe3d2;
+    --green: #1fa971; --green-soft: #d9f5e7;
+    --ink: #142033; --ink-soft: #4a5570; --line: #d8e3f7; --radius: 14px;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{ margin:0; background: var(--paper); color: var(--ink); font-family:'Manrope', -apple-system, sans-serif; font-size:16px; line-height:1.6; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; color: var(--navy); margin:0; line-height:1.15; }
+  p{ margin:0 0 1em 0; font-size:1rem; }
+  a{ color: var(--blue); }
+  .wrap{ max-width: 1080px; margin:0 auto; padding:0 32px; }
+
+  .hero{
+    background: radial-gradient(ellipse 900px 500px at 15% -10%, #1c4b93 0%, var(--navy) 55%, #0b1a30 100%);
+    color: white; padding: 90px 0 70px; position: relative; overflow:hidden;
+  }
+  .hero::after{ content:""; position:absolute; right:-120px; bottom:-160px; width:420px; height:420px; border-radius:50%; background: radial-gradient(circle, rgba(232,112,58,0.35), transparent 70%); }
+  .back-link{ display:inline-flex; align-items:center; gap:8px; color:#c7d8f5; font-weight:600; font-size:0.95rem; margin-bottom:26px; }
+  .back-link:hover{ color:white; }
+  .eyebrow-tag{ display:inline-flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:999px; font-size:0.9rem; color: var(--sky); margin-bottom:28px; }
+  .hero h1{ color:white; font-size: clamp(2.3rem, 5vw, 3.4rem); max-width: 16ch; letter-spacing:-0.01em; }
+  .hero .sub{ color:#c7d8f5; font-size:1.2rem; max-width:58ch; margin-top:22px; }
+  .hero-stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:44px; }
+  .hero-stat{ background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding:18px 22px; min-width:150px; }
+  .hero-stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.9rem; color: var(--sky); font-weight:700; }
+  .hero-stat .lbl{ font-size:0.92rem; color:#b9cbee; margin-top:4px; }
+
+  section{ padding: 68px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .kicker{ color: var(--blue); font-weight:700; font-size:1rem; margin-bottom:10px; }
+  .section-head{ max-width:64ch; margin-bottom:40px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .section-head p{ color: var(--ink-soft); margin-top:12px; font-size:1.08rem; }
+
+  .card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:28px; }
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap:28px; }
+  @media (max-width: 820px){ .about-grid{ grid-template-columns:1fr; } }
+  .fact-list{ list-style:none; padding:0; margin:14px 0 0 0; }
+  .fact-list li{ display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid var(--line); font-size:0.98rem; }
+  .fact-list li:first-child{ border-top:none; }
+  .fact-list span:first-child{ color: var(--ink-soft); }
+  .fact-list span:last-child{ font-weight:600; color: var(--navy); text-align:right; }
+
+  .chart-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:26px 26px 12px; margin-bottom:28px; }
+  .chart-card h3{ font-size:1.12rem; margin-bottom:4px; }
+  .chart-card .note{ color: var(--ink-soft); font-size:0.95rem; margin-bottom:18px; }
+  .chart-box{ position:relative; height: 340px; }
+
+  .callout{ background: var(--navy); color:white; border-radius: var(--radius); padding:26px 30px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:6px; }
+  .callout .big{ font-family:'Space Grotesk', sans-serif; font-size:2.2rem; color: var(--sky); font-weight:700; }
+  .callout p{ margin:0; color:#cfe0fb; max-width:46ch; font-size:1rem; }
+
+  .round-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  @media (max-width: 800px){ .round-grid{ grid-template-columns:1fr; } }
+  .round-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; border-left:4px solid var(--ember); }
+  .round-card.good{ border-left-color: var(--green); }
+  .round-card .badge{ display:inline-block; background: var(--ember-soft); color:#9a3f14; font-weight:700; font-size:0.85rem; padding:5px 12px; border-radius:999px; margin-bottom:14px; }
+  .round-card.good .badge{ background: var(--green-soft); color:#0d6b46; }
+  .round-card h3{ font-size:1.1rem; margin-bottom:8px; }
+  .round-card p{ font-size:0.97rem; color: var(--ink-soft); margin:0; }
+
+  .rec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; }
+  @media (max-width: 900px){ .rec-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns:1fr; } }
+  .rec-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; border-top:4px solid var(--blue); }
+  .rec-card h4{ font-size:1.05rem; margin-bottom:8px; }
+  .rec-card p{ font-size:0.95rem; color: var(--ink-soft); margin:0; }
+
+  footer{ background: var(--navy); color:#c7d8f5; padding:46px 0; font-size:0.95rem; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  footer strong{ color:white; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+    <div class="eyebrow-tag">Business Policy &amp; Strategic Management · BBUS 470</div>
+    <h1>Running a company through 8 rounds of a live market simulation</h1>
+    <p class="sub">A Capsim business strategy simulation where our team managed marketing, production, finance, HR, and R&amp;D for a manufacturing company — competing against classmate-run companies in a shared market.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">8</div><div class="lbl">simulation rounds</div></div>
+      <div class="hero-stat"><div class="num">$297.9M</div><div class="lbl">final-round revenue</div></div>
+      <div class="hero-stat"><div class="num">$55.4M</div><div class="lbl">final-round profit</div></div>
+      <div class="hero-stat"><div class="num">32.2% → 52.8%</div><div class="lbl">contribution margin growth</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Project Overview</div>
+      <h2>From rocky start to above-average finish</h2>
+      <p>Capsim places teams in charge of a simulated manufacturing company, with decisions each round across pricing, production, R&amp;D, HR, and finance. Every choice ripples across the whole business — which is exactly what our team underestimated early on.</p>
+    </div>
+    <div class="about-grid">
+      <div class="card">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">The strategy</h3>
+        <p>We started with a pure low-cost strategy: keep prices low, invest in automation, and win on cost. It didn't hold up — cutting prices too far hurt margins, and ignoring high-end, performance, and size segments capped our growth. We shifted to a <strong>broad low-cost strategy</strong>: stay efficient, but compete across every segment instead of writing off the ones that didn't fit a narrow cost story.</p>
+        <p>The bigger lesson wasn't about pricing at all — it was about forecasting discipline and treating the company as one connected system instead of five separate departments.</p>
+        <ul class="fact-list">
+          <li><span>Simulation</span><span>Capsim, 8 rounds</span></li>
+          <li><span>My focus areas</span><span>Marketing, forecasting, production</span></li>
+        </ul>
+      </div>
+      <div class="card" style="background: linear-gradient(160deg, var(--pale-blue), #f4f8ff); border:1px dashed var(--blue);">
+        <h3 style="font-size:1.05rem; color:var(--deep-blue); margin-bottom:10px;">Final outcome</h3>
+        <p style="color:var(--ink-soft); font-size:0.98rem;">Ferris wasn't the top-performing company in the simulation, but by Round 8 we were outperforming the industry average in both revenue and profit — a direct result of correcting our forecasting and treating decisions as interconnected rather than siloed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Performance</div>
+      <h2>A rough start, then a steady climb</h2>
+      <p>Revenue and earnings tell the same story: two difficult early rounds driven by forecasting mistakes, followed by a recovery that outpaced the industry average.</p>
+    </div>
+    <div class="chart-card">
+      <h3>Revenue over time</h3>
+      <p class="note">Ferris trailed the industry average through Round 2, then pulled ahead and stayed above it through Round 8 — though Garrett grew faster and finished as the market leader.</p>
+      <div class="chart-box"><canvas id="revenueChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Earnings over time</h3>
+      <p class="note">After a $4.0M loss in Round 2, profit grew faster than revenue every round after — a sign of improving efficiency, not just scale.</p>
+      <div class="chart-box"><canvas id="earningsChart"></canvas></div>
+    </div>
+    <div class="callout">
+      <div class="big">Profit grew faster than sales</div>
+      <p>From Round 3 onward, earnings compounded faster than revenue — evidence that the automation investment and tighter forecasting were making the company more efficient, not just bigger.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What Went Wrong (and Right)</div>
+      <h2>Two rounds, two opposite mistakes</h2>
+      <p>Rounds 1 and 2 taught the same lesson from opposite directions — and automation became the decision that changed our trajectory.</p>
+    </div>
+    <div class="round-grid">
+      <div class="round-card">
+        <span class="badge">Round 1</span>
+        <h3>Overforecasted demand</h3>
+        <p>$115.6M in sales and a thin $1.0M profit — but we overspent and overproduced, triggering a $12.1M emergency loan that hurt our stock price.</p>
+      </div>
+      <div class="round-card">
+        <span class="badge">Round 2</span>
+        <h3>Overcorrected into stockouts</h3>
+        <p>Trying to avoid excess inventory, we swung too conservative and stocked out on several products. Sales dropped to $112.8M and we lost $4.0M.</p>
+      </div>
+      <div class="round-card good">
+        <span class="badge">Turning point</span>
+        <h3>Automation paid off</h3>
+        <p>Painful early on cash flow, but it matched our low-cost strategy. Contribution margin climbed from 32.2% in Round 1 to 52.8% by Round 8.</p>
+      </div>
+      <div class="round-card good">
+        <span class="badge">Round 3 onward</span>
+        <h3>Started thinking as one system</h3>
+        <p>We stopped treating marketing, production, finance, HR, and R&amp;D as separate decisions and started checking how each choice affected the others.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Process Improvements</div>
+      <h2>What we'd do differently next time</h2>
+      <p>The clearest gap wasn't strategy — it was process. We didn't stress-test decisions against the rest of the company before locking them in.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>Pre-submission checklist</h4>
+        <p>Check cash balance, inventory risk, production cushion, and contribution margin before locking in every round's decisions.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Assign a forecast challenger</h4>
+        <p>One person's job: poke holes in the demand forecast before it's finalized, instead of accepting the first estimate.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Assign a financing challenger</h4>
+        <p>A second person stress-tests the financing plan against worst-case demand swings to catch emergency-loan risk early.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Treat departments as connected</h4>
+        <p>Ask whether a production call could cause a stockout, whether automation leaves enough cash, and whether a price cut is worth the margin loss — every round.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Avoid overreacting</h4>
+        <p>Round 2's stockouts came from overcorrecting Round 1's overproduction. Smaller, steadier adjustments beat swinging between extremes.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Revisit segment coverage</h4>
+        <p>A pure low-cost focus capped growth. Staying competitive across high-end, performance, and size segments broadened the path to recovery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Business Strategy Capstone</strong> — BBUS 470</div>
+    <div class="tools">Capsim Simulation</div>
+  </div>
+</footer>
+
+<script>
+  Chart.defaults.font.family = "'Manrope', sans-serif";
+  Chart.defaults.color = '#4a5570';
+  const fontBase = { family: "'Manrope', sans-serif", size: 13 };
+  const rounds = ['1','2','3','4','5','6','7','8'];
+
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+      labels: rounds,
+      datasets: [
+        { label: 'Ferris', data: [118000,112000,152000,175000,198000,235000,285000,297900], borderColor:'#2f6fed', backgroundColor:'#2f6fed', tension:0.3, pointRadius:4 },
+        { label: 'Industry Average', data: [117000,128000,148000,168000,188000,213000,241000,259700], borderColor:'#e8703a', backgroundColor:'#e8703a', tension:0.3, pointRadius:4 },
+        { label: 'Garrett', data: [138000,180000,208000,267000,320000,385000,460000,490000], borderColor:'#1fa971', backgroundColor:'#1fa971', tension:0.3, pointRadius:4 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'bottom', labels:{ font: fontBase, boxWidth:14, padding:16 } } },
+      scales:{
+        x:{ title:{ display:true, text:'Round', font: fontBase }, grid:{ display:false }, ticks:{ font: fontBase } },
+        y:{ title:{ display:true, text:'Revenue ($000s)', font: fontBase }, grid:{ color:'#eaf0fb' }, ticks:{ font: fontBase } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('earningsChart'), {
+    type: 'line',
+    data: {
+      labels: rounds,
+      datasets: [
+        { label: 'Ferris', data: [1000,-4000,9500,9000,13000,27800,49000,55400], borderColor:'#2f6fed', backgroundColor:'#2f6fed', tension:0.3, pointRadius:4 },
+        { label: 'Industry Average', data: [1000,3000,6000,8000,12000,17500,29000,37000], borderColor:'#e8703a', backgroundColor:'#e8703a', tension:0.3, pointRadius:4 },
+        { label: 'Garrett', data: [-5000,9500,17000,9000,34000,46000,63000,87000], borderColor:'#1fa971', backgroundColor:'#1fa971', tension:0.3, pointRadius:4 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'bottom', labels:{ font: fontBase, boxWidth:14, padding:16 } } },
+      scales:{
+        x:{ title:{ display:true, text:'Round', font: fontBase }, grid:{ display:false }, ticks:{ font: fontBase } },
+        y:{ title:{ display:true, text:'Net Income ($000s)', font: fontBase }, grid:{ color:'#eaf0fb' }, ticks:{ font: fontBase } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

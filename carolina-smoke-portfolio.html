@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carolina Smoke BBQ — Market Research Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy: #10233f;
+    --deep-blue: #16376b;
+    --blue: #2f6fed;
+    --sky: #8fc6ff;
+    --pale-blue: #eaf2ff;
+    --paper: #f7f9fd;
+    --ember: #e8703a;
+    --ember-soft: #ffe3d2;
+    --ink: #142033;
+    --ink-soft: #4a5570;
+    --line: #d8e3f7;
+    --radius: 14px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Manrope', -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  h1,h2,h3,h4{
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--navy);
+    margin: 0;
+    line-height: 1.15;
+  }
+  p{ margin: 0 0 1em 0; font-size: 1rem; }
+  a{ color: var(--blue); }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: radial-gradient(ellipse 900px 500px at 15% -10%, #1c4b93 0%, var(--navy) 55%, #0b1a30 100%);
+    color: white;
+    padding: 90px 0 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-120px; bottom:-160px;
+    width:420px; height:420px; border-radius:50%;
+    background: radial-gradient(circle, rgba(232,112,58,0.35), transparent 70%);
+  }
+  .eyebrow-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: var(--sky);
+    margin-bottom: 28px;
+  }
+  .back-link{
+    display:inline-flex; align-items:center; gap:8px;
+    color: #c7d8f5; font-weight:600; font-size: 0.95rem;
+    margin-bottom: 26px;
+  }
+  .back-link:hover{ color: white; }
+  .hero h1{
+    color: white;
+    font-size: clamp(2.3rem, 5vw, 3.6rem);
+    max-width: 12ch;
+    letter-spacing: -0.01em;
+  }
+  .hero .sub{
+    color: #c7d8f5;
+    font-size: 1.2rem;
+    max-width: 56ch;
+    margin-top: 22px;
+  }
+  .hero-stat-row{
+    display:flex; flex-wrap:wrap; gap: 14px;
+    margin-top: 44px;
+  }
+  .hero-stat{
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    min-width: 150px;
+  }
+  .hero-stat .num{ font-family:'Space Grotesk', sans-serif; font-size: 1.9rem; color: var(--sky); font-weight:700; }
+  .hero-stat .lbl{ font-size: 0.92rem; color: #b9cbee; margin-top:4px; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding: 68px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom: none; }
+  .kicker{
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .section-head{ max-width: 62ch; margin-bottom: 40px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .section-head p{ color: var(--ink-soft); margin-top: 12px; font-size: 1.08rem; }
+
+  /* ---------- ABOUT / ROLE STRIP ---------- */
+  .about-grid{
+    display:grid; grid-template-columns: 1.3fr 1fr; gap: 28px;
+  }
+  .card{
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .role-card{
+    background: linear-gradient(160deg, var(--pale-blue), #f4f8ff);
+    border: 1px dashed var(--blue);
+  }
+  .role-card h3{ font-size: 1.05rem; color: var(--deep-blue); margin-bottom: 10px; }
+  .role-card p{ color: var(--ink-soft); font-size: 0.98rem; }
+  .fact-list{ list-style:none; padding:0; margin: 14px 0 0 0; }
+  .fact-list li{
+    display:flex; justify-content:space-between; gap: 12px;
+    padding: 11px 0; border-top: 1px solid var(--line); font-size: 0.98rem;
+  }
+  .fact-list li:first-child{ border-top:none; }
+  .fact-list span:first-child{ color: var(--ink-soft); }
+  .fact-list span:last-child{ font-weight: 600; color: var(--navy); text-align:right; }
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{
+    display:flex; flex-wrap:wrap; align-items:stretch; gap: 0;
+  }
+  .flow-step{
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--blue);
+    border-radius: 10px;
+    padding: 18px 20px;
+    flex: 1 1 150px;
+    margin: 6px;
+    min-width: 150px;
+  }
+  .flow-step.warm{ border-left-color: var(--ember); }
+  .flow-step .tag{ font-size: 0.82rem; color: var(--blue); font-weight:700; text-transform: none; margin-bottom: 6px; }
+  .flow-step.warm .tag{ color: var(--ember); }
+  .flow-step h4{ font-size: 1.02rem; margin-bottom: 6px; }
+  .flow-step p{ font-size: 0.92rem; color: var(--ink-soft); margin:0; }
+  .flow-arrow{ display:flex; align-items:center; color: var(--line); font-size: 1.4rem; padding: 0 2px; }
+
+  /* ---------- FINDINGS ---------- */
+  .chart-card{
+    background: white; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 26px 12px;
+    margin-bottom: 28px;
+  }
+  .chart-card h3{ font-size: 1.12rem; margin-bottom: 4px; }
+  .chart-card .note{ color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 18px; }
+  .chart-box{ position: relative; height: 320px; }
+  .findings-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 820px){ .findings-grid{ grid-template-columns: 1fr; } .about-grid{ grid-template-columns: 1fr; } }
+
+  .callout{
+    background: var(--navy);
+    color: white;
+    border-radius: var(--radius);
+    padding: 26px 30px;
+    display:flex; align-items:center; gap: 22px; flex-wrap:wrap;
+    margin-top: 6px;
+  }
+  .callout .big{ font-family:'Space Grotesk', sans-serif; font-size: 2.4rem; color: var(--sky); font-weight:700; }
+  .callout p{ margin:0; color: #cfe0fb; max-width: 44ch; font-size: 1rem; }
+
+  /* ---------- STAT TEST CARDS ---------- */
+  .test-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 820px){ .test-grid{ grid-template-columns: 1fr; } }
+  .test-card{ background: white; border:1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .test-card .badge{
+    display:inline-block; background: var(--pale-blue); color: var(--deep-blue);
+    font-weight:700; font-size: 0.85rem; padding: 5px 12px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .test-card h3{ font-size: 1.15rem; margin-bottom: 10px; }
+  .test-card p{ font-size: 0.98rem; color: var(--ink-soft); }
+  .pval{
+    display:inline-flex; align-items:baseline; gap: 6px; margin-top: 10px;
+    background: var(--ember-soft); color: #9a3f14; padding: 8px 14px; border-radius: 8px; font-weight:700;
+  }
+  .pval span{ font-weight:400; font-size:0.85rem; }
+  .coef-list{ list-style:none; margin: 16px 0 0; padding:0; }
+  .coef-list li{ display:flex; justify-content:space-between; padding: 8px 0; border-top:1px solid var(--line); font-size: 0.95rem; }
+  .coef-list li:first-child{ border-top:none; }
+  .coef-list b{ color: var(--navy); }
+
+  /* ---------- RECOMMENDATIONS ---------- */
+  .rec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 900px){ .rec-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns: 1fr; } }
+  .rec-card{
+    background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px;
+    border-top: 4px solid var(--blue);
+  }
+  .rec-card:nth-child(2){ border-top-color: var(--ember); }
+  .rec-card:nth-child(5){ border-top-color: var(--ember); }
+  .rec-card h4{ font-size: 1.05rem; margin-bottom: 8px; }
+  .rec-card p{ font-size: 0.95rem; color: var(--ink-soft); margin:0; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background: var(--navy); color: #c7d8f5; padding: 46px 0; font-size: 0.95rem;
+  }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap: 16px; align-items:center; }
+  footer strong{ color: white; }
+  .tools{ display:flex; gap:10px; flex-wrap:wrap; }
+  .tool-pill{ background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px; font-size: 0.88rem; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+    <div class="eyebrow-tag">Market Research Case Study · BUS 423</div>
+    <h1>Turning smoke &amp; sauce into a data-driven growth plan</h1>
+    <p class="sub">A full-cycle market research project for Carolina Smoke BBQ &amp; Catering in Bothell, WA — from questionnaire design through regression analysis — built to answer one question: what actually drives customers to visit and come back?</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">87</div><div class="lbl">survey responses</div></div>
+      <div class="hero-stat"><div class="num">5</div><div class="lbl">research problems</div></div>
+      <div class="hero-stat"><div class="num">86.9%</div><div class="lbl">of satisfaction explained by our model</div></div>
+      <div class="hero-stat"><div class="num">11</div><div class="lbl">questions across 6 survey blocks</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Project Overview</div>
+      <h2>Helping a local BBQ spot see its customers clearly</h2>
+      <p>Carolina Smoke BBQ wanted to grow its catering business and build stronger customer loyalty, but didn't know which levers mattered most. Our team designed and ran an original study to find out.</p>
+    </div>
+    <div class="about-grid">
+      <div class="card">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">The brief</h3>
+        <p>Carolina Smoke differentiates itself with a Carolina-style rub instead of the more common Texas sauce-forward approach, and has leaned into catering as dine-in traffic softened post-pandemic. Management needed to know what actually moves the needle on customer satisfaction and repeat visits before investing further in marketing or training.</p>
+        <p>We translated that decision problem into five research problems covering awareness, choice drivers, satisfaction, marketing channels, and pricing — then built a Qualtrics survey with skip logic so we only asked satisfaction questions of people who'd actually eaten there.</p>
+        <ul class="fact-list">
+          <li><span>Sample</span><span>r/Bothell community, convenience + voluntary response</span></li>
+          <li><span>Tools</span><span>Qualtrics, SPSS, Excel</span></li>
+          <li><span>Deliverables</span><span>Survey instrument, SPSS analysis, final report</span></li>
+        </ul>
+      </div>
+      <div class="card role-card">
+        <h3>My role</h3>
+        <p>[Add your specific contribution here — e.g. "I led questionnaire design and ran the regression analysis in SPSS" or "I built the survey logic and wrote the sampling section."]</p>
+        <p style="margin-top:14px;">Team: Jesus De La Cruz, Skye Duff, Verine Hayatma, Marcello Leone, David Seamaan, McKayla Vu</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Approach</div>
+      <h2>From decision problem to demographic questions</h2>
+      <p>The survey was structured as a logical funnel: screen respondents, route visitors down a satisfaction path, then bring everyone back together for choice, marketing, and pricing questions before demographics.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><div class="tag">Block 0</div><h4>Screening</h4><p>BBQ frequency + visited in past 12 months? Routes respondents down the right path.</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="tag">Blocks 1–2</div><h4>Awareness &amp; Satisfaction</h4><p>Shown only to past visitors — how they found the restaurant and how their visit felt.</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step warm"><div class="tag">Blocks 3–5</div><h4>Choice, Channels &amp; Pricing</h4><p>Shown to everyone — what drives restaurant choice, discovery channels, and price expectations.</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="tag">Block 6</div><h4>Demographics</h4><p>Age, gender, ZIP, income — placed last to reduce early fatigue.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Who we heard from</div>
+      <h2>87 responses, concentrated in Carolina Smoke's backyard</h2>
+      <p>Recruitment ran through the r/Bothell subreddit. The sample skewed male (63.9%) and middle-aged, with over half of respondents living in the 98011, 98012, and 98021 ZIP codes — Bothell, Kenmore, and Mill Creek.</p>
+    </div>
+    <div class="chart-card">
+      <h3>Respondent age distribution</h3>
+      <p class="note">35–44 year-olds were the largest single group, consistent with Carolina Smoke's existing customer base.</p>
+      <div class="chart-box"><canvas id="ageChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Key Findings</div>
+      <h2>Food quality and service outrank everything else</h2>
+      <p>Two questions cut through the noise: what do people say matters, and how do they actually find the restaurant?</p>
+    </div>
+
+    <div class="chart-card">
+      <h3>How important is each factor when choosing a restaurant?</h3>
+      <p class="note">Food quality dominates the "very important" category — no other factor comes close.</p>
+      <div class="chart-box" style="height:360px;"><canvas id="factorsChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Which channels do people use to find restaurants?</h3>
+      <p class="note">Google Maps and word of mouth are the two clear leaders — far ahead of review sites and social platforms.</p>
+      <div class="chart-box" style="height:360px;"><canvas id="channelsChart"></canvas></div>
+    </div>
+
+    <div class="callout">
+      <div class="big">4.70 / 5</div>
+      <p>Average importance rating for food quality when choosing a restaurant — the single highest-scoring factor in the entire survey, with low variance (SD = 0.73), meaning respondents agreed almost unanimously.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Statistical Analysis</div>
+      <h2>What the numbers confirmed</h2>
+      <p>We ran a t-test on word-of-mouth referrals and a multiple regression on the five perception drivers of satisfaction.</p>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <span class="badge">Independent samples t-test</span>
+        <h3>Word of mouth drives visit intent</h3>
+        <p>Customers who first heard about Carolina Smoke from friends or family reported meaningfully higher intent to visit again in the next month (M = 3.25) than those who heard about it another way (M = 2.46).</p>
+        <div class="pval">p = 0.026 <span>&lt; 0.05 — significant</span></div>
+      </div>
+      <div class="test-card">
+        <span class="badge">Multiple regression · R² = 0.869</span>
+        <h3>Three factors drive satisfaction</h3>
+        <p>Staff service, food quality, and price fairness all significantly predict overall satisfaction. Comfort and order accuracy did not.</p>
+        <ul class="coef-list">
+          <li><span>Staff service</span><b>+0.534, p &lt; .001</b></li>
+          <li><span>Food quality</span><b>+0.314, p &lt; .001</b></li>
+          <li><span>Price value</span><b>+0.258, p = .012</b></li>
+          <li><span>Order prep</span><b>+0.145, p = .263 (n.s.)</b></li>
+          <li><span>Comfort</span><b>−0.107, p = .535 (n.s.)</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Recommendations</div>
+      <h2>What we told Carolina Smoke to do next</h2>
+      <p>The data pointed away from big ad spend and toward doubling down on fundamentals.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>Train for consistency</h4>
+        <p>Build a staff service program focused on attentiveness and communication during busy periods — the single strongest predictor of satisfaction.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Protect food quality</h4>
+        <p>Introduce periodic quality checks and portion guidelines so every plate matches expectations, visit after visit.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Reframe price, don't cut it</h4>
+        <p>Value combos and highlighting ingredient quality address perceived fairness without discounting the brand.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Fuel word of mouth</h4>
+        <p>Local partnerships with butchers and farms give loyal customers a reason to talk about Carolina Smoke.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Keep Google Maps current</h4>
+        <p>It's the #1 discovery channel — accurate hours, photos, and menu links matter more than paid ads.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Deprioritize review-site spend</h4>
+        <p>Yelp and similar platforms had far less reach than Maps or referrals — a lower-ROI place to invest limited marketing dollars.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Carolina Smoke BBQ</strong> — Market Research Case Study, BUS 423, Group 6</div>
+    <div class="tools">
+      <span class="tool-pill">Qualtrics</span>
+      <span class="tool-pill">SPSS</span>
+      <span class="tool-pill">Excel</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const bluePalette = ['#2f6fed','#5c8ff2','#8fc6ff','#b7dcff','#dcedff'];
+  const fontBase = { family: "'Manrope', sans-serif", size: 13 };
+
+  Chart.defaults.font.family = "'Manrope', sans-serif";
+  Chart.defaults.color = '#4a5570';
+
+  // Age distribution
+  new Chart(document.getElementById('ageChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Under 18','18–24','25–34','35–44','45–54','55–64'],
+      datasets: [{
+        label: 'Respondents',
+        data: [3,6,15,24,18,17],
+        backgroundColor: '#2f6fed',
+        borderRadius: 6,
+        maxBarThickness: 56
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, grid: { color: '#eaf0fb' }, ticks: { font: fontBase } },
+        x: { grid: { display: false }, ticks: { font: fontBase } }
+      }
+    }
+  });
+
+  // Important factors (stacked)
+  new Chart(document.getElementById('factorsChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Food quality','Price','Location','Online reviews','Atmosphere','Customer service'],
+      datasets: [
+        { label: 'Not important at all', data: [1,1,1,1,1,1], backgroundColor: '#dcedff' },
+        { label: 'Not important', data: [2,3,11,11,17,3], backgroundColor: '#b7dcff' },
+        { label: 'Neutral', data: [5,23,32,23,28,17], backgroundColor: '#8fc6ff' },
+        { label: 'Important', data: [15,40,28,21,23,27], backgroundColor: '#5c8ff2' },
+        { label: 'Very important', data: [65,17,10,12,10,34], backgroundColor: '#2f6fed' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: fontBase, padding: 16 } } },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: fontBase } },
+        y: { stacked: true, grid: { color: '#eaf0fb' }, ticks: { font: fontBase } }
+      }
+    }
+  });
+
+  // Channels
+  new Chart(document.getElementById('channelsChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Google Maps','Word of mouth','Yelp','Instagram','Reddit','Store signage','Ubereats','Facebook','Doordash','Opentable','Internet ads','Tiktok','Youtube'],
+      datasets: [{
+        label: 'Respondents',
+        data: [68,61,24,20,22,18,12,12,10,10,9,8,8],
+        backgroundColor: '#2f6fed',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, grid: { color: '#eaf0fb' }, ticks: { font: fontBase } },
+        y: { grid: { display: false }, ticks: { font: fontBase } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

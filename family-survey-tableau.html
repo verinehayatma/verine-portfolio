@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Survey Data — Tableau Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy: #10233f; --deep-blue: #16376b; --blue: #2f6fed; --sky: #8fc6ff;
+    --pale-blue: #eaf2ff; --paper: #f7f9fd; --ember: #e8703a; --ember-soft: #ffe3d2;
+    --ink: #142033; --ink-soft: #4a5570; --line: #d8e3f7; --radius: 14px;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{ margin:0; background: var(--paper); color: var(--ink); font-family:'Manrope', -apple-system, sans-serif; font-size:16px; line-height:1.6; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; color: var(--navy); margin:0; line-height:1.15; }
+  p{ margin:0 0 1em 0; font-size:1rem; }
+  a{ color: var(--blue); }
+  .wrap{ max-width: 1080px; margin:0 auto; padding:0 32px; }
+
+  .hero{
+    background: radial-gradient(ellipse 900px 500px at 15% -10%, #1c4b93 0%, var(--navy) 55%, #0b1a30 100%);
+    color: white; padding: 90px 0 70px; position: relative; overflow:hidden;
+  }
+  .hero::after{ content:""; position:absolute; right:-120px; bottom:-160px; width:420px; height:420px; border-radius:50%; background: radial-gradient(circle, rgba(232,112,58,0.35), transparent 70%); }
+  .back-link{ display:inline-flex; align-items:center; gap:8px; color:#c7d8f5; font-weight:600; font-size:0.95rem; margin-bottom:26px; }
+  .back-link:hover{ color:white; }
+  .eyebrow-tag{ display:inline-flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:999px; font-size:0.9rem; color: var(--sky); margin-bottom:28px; }
+  .hero h1{ color:white; font-size: clamp(2.3rem, 5vw, 3.4rem); max-width: 16ch; letter-spacing:-0.01em; }
+  .hero .sub{ color:#c7d8f5; font-size:1.2rem; max-width:58ch; margin-top:22px; }
+  .hero-stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:44px; }
+  .hero-stat{ background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding:18px 22px; min-width:150px; }
+  .hero-stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.9rem; color: var(--sky); font-weight:700; }
+  .hero-stat .lbl{ font-size:0.92rem; color:#b9cbee; margin-top:4px; }
+  .hero-cta{ margin-top: 30px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; background: var(--blue); color:white; font-weight:700;
+    font-size:1rem; padding:13px 24px; border-radius:10px; border:none;
+  }
+  .btn:hover{ background: var(--deep-blue); }
+
+  section{ padding: 68px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .kicker{ color: var(--blue); font-weight:700; font-size:1rem; margin-bottom:10px; }
+  .section-head{ max-width:64ch; margin-bottom:36px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .section-head p{ color: var(--ink-soft); margin-top:12px; font-size:1.08rem; }
+
+  .card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:28px; }
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap:28px; }
+  @media (max-width: 820px){ .about-grid{ grid-template-columns:1fr; } }
+  .fact-list{ list-style:none; padding:0; margin:14px 0 0 0; }
+  .fact-list li{ display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid var(--line); font-size:0.98rem; }
+  .fact-list li:first-child{ border-top:none; }
+  .fact-list span:first-child{ color: var(--ink-soft); }
+  .fact-list span:last-child{ font-weight:600; color: var(--navy); text-align:right; }
+
+  .viz-frame-card{
+    background: white; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 20px; overflow: hidden;
+  }
+  .viz-frame-card iframe{ width: 100%; height: 850px; border: none; border-radius: 10px; display:block; }
+  .viz-caption{ display:flex; justify-content:space-between; align-items:center; margin-top: 16px; flex-wrap: wrap; gap: 10px; }
+  .viz-caption p{ margin:0; color: var(--ink-soft); font-size: 0.95rem; }
+
+  .chart-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:26px 26px 12px; margin-bottom:22px; }
+  .chart-card h3{ font-size:1.12rem; margin-bottom:4px; }
+  .chart-card .note{ color: var(--ink-soft); font-size:0.95rem; margin-bottom:18px; }
+  .chart-box{ position:relative; height: 280px; }
+
+  .rec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; }
+  @media (max-width: 900px){ .rec-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns:1fr; } }
+  .rec-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; border-top:4px solid var(--blue); }
+  .rec-card h4{ font-size:1.05rem; margin-bottom:8px; }
+  .rec-card p{ font-size:0.95rem; color: var(--ink-soft); margin:0; }
+
+  .callout{ background: var(--navy); color:white; border-radius: var(--radius); padding:26px 30px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:32px; }
+  .callout .big{ font-family:'Space Grotesk', sans-serif; font-size:2rem; color: var(--sky); font-weight:700; max-width: 14ch; }
+  .callout p{ margin:0; color:#cfe0fb; max-width:46ch; font-size:1rem; }
+
+  footer{ background: var(--navy); color:#c7d8f5; padding:46px 0; font-size:0.95rem; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  footer strong{ color:white; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+    <div class="eyebrow-tag">Data Visualization · Sept 2025 – Dec 2025</div>
+    <h1>Turning 7,000+ survey responses into a dashboard leadership could actually use</h1>
+    <p class="sub">A Tableau dashboard and story built from Edmonds School District family survey data — designed to surface key performance indicators clearly enough for stakeholders to act on.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">7,000+</div><div class="lbl">survey responses analyzed</div></div>
+      <div class="hero-stat"><div class="num">Tableau</div><div class="lbl">dashboard &amp; story format</div></div>
+    </div>
+    <div class="hero-cta">
+      <a class="btn" href="https://public.tableau.com/app/profile/verine.hayatma/viz/EdmondsSchoolDistrict_17642002365660/Story1" target="_blank" rel="noopener">Open full interactive on Tableau Public ↗</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Project Overview</div>
+      <h2>From raw survey exports to a stakeholder-ready story</h2>
+      <p>The Edmonds School District family survey generated a large, messy dataset — the kind that's easy to misread if it isn't cleaned and structured carefully before it reaches a dashboard.</p>
+    </div>
+    <div class="about-grid">
+      <div class="card">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">What I did</h3>
+        <p>I designed Tableau dashboards from over 7,000 family survey responses to visualize key performance indicators for the district. Before any visualization work, I cleaned and validated the dataset to improve reporting accuracy and analytical reliability — catching inconsistencies that would have skewed the KPIs if left unaddressed.</p>
+        <p>The final deliverable was a Tableau story: a guided sequence of dashboards presenting the findings in a format built for stakeholder decision-making rather than raw data exploration. Among the KPIs it surfaced, family awareness of bullying policies and reporting channels stood out as a metric the district could track and act on directly — turning a single survey question into an ongoing measure of how well school-to-home communication is working.</p>
+        <ul class="fact-list">
+          <li><span>Data source</span><span>7,000+ family survey responses</span></li>
+          <li><span>Tools</span><span>Tableau, data cleaning &amp; validation</span></li>
+          <li><span>Output</span><span>KPI dashboards + Tableau story</span></li>
+        </ul>
+      </div>
+      <div class="card" style="background: linear-gradient(160deg, var(--pale-blue), #f4f8ff); border:1px dashed var(--blue);">
+        <h3 style="font-size:1.05rem; color:var(--deep-blue); margin-bottom:10px;">Why it mattered</h3>
+        <p style="color:var(--ink-soft); font-size:0.98rem;">Bullying awareness was one of the key indicators buried in the survey data. Surfacing it clearly gave the district a way to see how aware families actually were of bullying policies and reporting channels — not just anecdotally, but as a trackable number. That visibility supports two things at once: it gives the district a baseline to measure whether future outreach efforts are actually improving awareness, and it strengthens the broader communication loop between school and home, since the same dashboard reflects how well families feel informed overall. In that sense, the KPI isn't just a metric — it's a feedback signal the district can act on.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="big">48% vs. 15%</div>
+      <p>Agreement on bullying-policy awareness ranged from 48% at the highest-scoring school to just 15% at the lowest — turning a vague sense of "some schools communicate better" into a specific, trackable gap.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Key Finding</div>
+      <h2>Awareness of bullying policy varies more than the district might expect</h2>
+      <p>Across the roughly 30 schools surveyed, agreement that students and families are aware of bullying policies and reporting channels was inconsistent — and at most schools, "disagree" was the largest single response.</p>
+    </div>
+    <div class="chart-card">
+      <h3>Bullying-policy awareness: best vs. worst vs. district average</h3>
+      <p class="note">Scriber Lake High led the district; Edmonds Heights K-12 trailed it by more than 30 percentage points.</p>
+      <div class="chart-box"><canvas id="awarenessChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">The Dashboard</div>
+      <h2>Explore the live story below</h2>
+      <p>This is the actual published Tableau workbook — fully interactive, embedded directly from Tableau Public.</p>
+    </div>
+    <div class="viz-frame-card">
+      <iframe src="https://public.tableau.com/views/EdmondsSchoolDistrict_17642002365660/Story1?:showVizHome=no&:embed=true" allowfullscreen></iframe>
+      <div class="viz-caption">
+        <p>If the embed doesn't load, open it directly on Tableau Public.</p>
+        <a class="btn" style="padding:9px 18px; font-size:0.92rem;" href="https://public.tableau.com/app/profile/verine.hayatma/viz/EdmondsSchoolDistrict_17642002365660/Story1" target="_blank" rel="noopener">Open on Tableau Public ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Approach</div>
+      <h2>How the dashboard came together</h2>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>Clean the data first</h4>
+        <p>Validated over 7,000 responses to catch inconsistent entries and missing values before they could distort the KPIs.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Define the right KPIs</h4>
+        <p>Identified the metrics that mattered most to district stakeholders rather than visualizing everything the survey collected.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Design for a non-technical audience</h4>
+        <p>Built the dashboards as a guided Tableau story so stakeholders could follow the findings without needing to explore raw data themselves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Family Survey Data — Tableau Analysis</strong></div>
+    <div class="tools">Tableau · Data Cleaning · Dashboard Design</div>
+  </div>
+</footer>
+
+<script>
+  Chart.defaults.font.family = "'Manrope', sans-serif";
+  Chart.defaults.color = '#4a5570';
+  const fontBase = { family: "'Manrope', sans-serif", size: 13 };
+
+  new Chart(document.getElementById('awarenessChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Scriber Lake High\n(highest)', 'District average', 'Edmonds Heights K-12\n(lowest)'],
+      datasets: [
+        { label: 'Agree', data: [48, 31, 15], backgroundColor: '#2f6fed', stack: 's' },
+        { label: 'Neither agree nor disagree', data: [17, 15, 9], backgroundColor: '#b7dcff', stack: 's' },
+        { label: 'Disagree', data: [35, 54, 76], backgroundColor: '#e8703a', stack: 's' }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: fontBase, padding: 16 } } },
+      scales: {
+        x: { stacked: true, max: 100, grid: { color: '#eaf0fb' }, ticks: { font: fontBase, callback: v => v + '%' } },
+        y: { stacked: true, grid: { display: false }, ticks: { font: fontBase } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
