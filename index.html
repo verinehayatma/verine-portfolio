@@ -52,12 +52,14 @@
   }
   .hero-inner{ display:flex; gap: 44px; align-items:center; flex-wrap: wrap; }
   .avatar{
-    width: 140px; height: 140px; border-radius: 50%;
+    width: 160px; height: 160px; border-radius: 50%;
     background: linear-gradient(160deg, var(--sky), var(--blue));
     display:flex; align-items:center; justify-content:center;
     font-family:'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight:700; color: white;
     border: 3px solid rgba(255,255,255,0.3); flex-shrink:0;
+    overflow: hidden;
   }
+  .avatar img{ width:100%; height:100%; object-fit: cover; }
   .hero-text{ max-width: 60ch; }
   .eyebrow-tag{
     display:inline-flex; align-items:center; gap:8px;
@@ -140,7 +142,7 @@
 <div class="hero" id="about">
   <div class="wrap">
     <div class="hero-inner">
-      <div class="avatar">VH</div>
+      <div class="avatar"><img src="profile-photo.jpg" alt="Verine Tirta Hayatma"></div>
       <div class="hero-text">
         <div class="eyebrow-tag">Portfolio</div>
         <h1>Hi, I'm Verine Tirta Hayatma.</h1>
