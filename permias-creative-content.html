@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERMIAS Seattle — Marketing &amp; Creative Content</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #10233f; --deep-blue: #16376b; --blue: #2f6fed; --sky: #8fc6ff;
+    --pale-blue: #eaf2ff; --paper: #f7f9fd; --ember: #e8703a; --ember-soft: #ffe3d2;
+    --pink: #e8479a; --pink-soft: #fde3f0;
+    --ink: #142033; --ink-soft: #4a5570; --line: #d8e3f7; --radius: 14px;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{ margin:0; background: var(--paper); color: var(--ink); font-family:'Manrope', -apple-system, sans-serif; font-size:16px; line-height:1.6; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; color: var(--navy); margin:0; line-height:1.15; }
+  p{ margin:0 0 1em 0; font-size:1rem; }
+  a{ color: var(--blue); }
+  .wrap{ max-width: 1080px; margin:0 auto; padding:0 32px; }
+
+  .hero{
+    background: radial-gradient(ellipse 900px 500px at 15% -10%, #7a1f6b 0%, var(--navy) 55%, #0b1a30 100%);
+    color: white; padding: 90px 0 70px; position: relative; overflow:hidden;
+  }
+  .hero::after{ content:""; position:absolute; right:-120px; bottom:-160px; width:420px; height:420px; border-radius:50%; background: radial-gradient(circle, rgba(232,71,154,0.35), transparent 70%); }
+  .back-link{ display:inline-flex; align-items:center; gap:8px; color:#c7d8f5; font-weight:600; font-size:0.95rem; margin-bottom:26px; }
+  .back-link:hover{ color:white; }
+  .eyebrow-tag{ display:inline-flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:999px; font-size:0.9rem; color: var(--sky); margin-bottom:28px; }
+  .hero h1{ color:white; font-size: clamp(2.2rem, 5vw, 3.2rem); max-width: 18ch; letter-spacing:-0.01em; }
+  .hero .sub{ color:#c7d8f5; font-size:1.2rem; max-width:58ch; margin-top:22px; }
+  .hero-stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:44px; }
+  .hero-stat{ background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding:18px 22px; min-width:150px; }
+  .hero-stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.6rem; color: var(--sky); font-weight:700; }
+  .hero-stat .lbl{ font-size:0.92rem; color:#b9cbee; margin-top:4px; }
+
+  section{ padding: 68px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .kicker{ color: var(--pink); font-weight:700; font-size:1rem; margin-bottom:10px; }
+  .section-head{ max-width:64ch; margin-bottom:36px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .section-head p{ color: var(--ink-soft); margin-top:12px; font-size:1.08rem; }
+
+  .card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:28px; }
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap:28px; }
+  @media (max-width: 820px){ .about-grid{ grid-template-columns:1fr; } }
+  .fact-list{ list-style:none; padding:0; margin:14px 0 0 0; }
+  .fact-list li{ display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid var(--line); font-size:0.98rem; }
+  .fact-list li:first-child{ border-top:none; }
+  .fact-list span:first-child{ color: var(--ink-soft); }
+  .fact-list span:last-child{ font-weight:600; color: var(--navy); text-align:right; }
+
+  .callout{ background: var(--navy); color:white; border-radius: var(--radius); padding:26px 30px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:6px; }
+  .callout .big{ font-family:'Space Grotesk', sans-serif; font-size:2rem; color: var(--pink); font-weight:700; max-width: 16ch; }
+  .callout p{ margin:0; color:#cfe0fb; max-width:46ch; font-size:1rem; }
+
+  .embed-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 900px){ .embed-grid{ grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+  .embed-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; padding: 6px; }
+
+  .rec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; }
+  @media (max-width: 900px){ .rec-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns:1fr; } }
+  .rec-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; border-top:4px solid var(--pink); }
+  .rec-card h4{ font-size:1.05rem; margin-bottom:8px; }
+  .rec-card p{ font-size:0.95rem; color: var(--ink-soft); margin:0; }
+
+  .tag-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 18px; }
+  .skill-tag{ background: var(--pink-soft); color:#a01a6b; font-size:0.9rem; font-weight:700; padding:7px 15px; border-radius:999px; }
+
+  footer{ background: var(--navy); color:#c7d8f5; padding:46px 0; font-size:0.95rem; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  footer strong{ color:white; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+    <div class="eyebrow-tag">Marketing &amp; Creative Content · Oct 2024 – June 2025</div>
+    <h1>Designing the look and feel of a Y2K-themed campus event</h1>
+    <p class="sub">As Marketing &amp; Creative Content Specialist for PERMIAS Seattle, I built the visual identity and promotional content for one of the organization's biggest events of the year — a Y2K-themed night that needed a campaign as bold as its theme.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">21K+</div><div class="lbl">views reached</div></div>
+      <div class="hero-stat"><div class="num">Y2K</div><div class="lbl">event theme &amp; visual direction</div></div>
+      <div class="hero-stat"><div class="num">Photoshop</div><div class="lbl">core design tool</div></div>
+      <div class="hero-stat"><div class="num">9 months</div><div class="lbl">as Creative Content Specialist</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Role Overview</div>
+      <h2>Turning event themes into a full promotional campaign</h2>
+      <p>PERMIAS Seattle is a student organization, and as Marketing &amp; Creative Content Specialist, I was responsible for the visual side of how events got in front of students — from concept to the graphics people actually saw on their feed.</p>
+    </div>
+    <div class="about-grid">
+      <div class="card">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">What I did</h3>
+        <p>I created promotional campaigns and digital content to build awareness for student events and initiatives, expanding our audience reach through strategic content, graphic design, and social media marketing. I worked closely with event teams to align messaging and content timing with what was actually happening on the ground, which helped strengthen participation and community outreach.</p>
+        <ul class="fact-list">
+          <li><span>Organization</span><span>PERMIAS Seattle</span></li>
+          <li><span>Role</span><span>Marketing &amp; Creative Content Specialist</span></li>
+          <li><span>Tools</span><span>Adobe Photoshop, Canva</span></li>
+        </ul>
+      </div>
+      <div class="card" style="background: linear-gradient(160deg, var(--pink-soft), #fef2f8); border:1px dashed var(--pink);">
+        <h3 style="font-size:1.05rem; color:#a01a6b; margin-bottom:10px;">Featured event: Y2K Night</h3>
+        <p style="color:var(--ink-soft); font-size:0.98rem;">This was one of the organization's biggest events of the year, and its Y2K theme needed a distinct visual identity to match. I designed the promotional graphics in Photoshop, building out the early-2000s aesthetic — chrome text, butterfly motifs, gradient overlays — across the campaign.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">The Campaign</div>
+      <h2>See the actual designs</h2>
+      <p>These are the real posts from the campaign, embedded live from Instagram. Click through for the full carousel on each.</p>
+    </div>
+    <div class="embed-grid">
+      <div class="embed-card">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DCsqzFLJD3H/" data-instgrm-version="14" style="margin:0; width:100%;"></blockquote>
+      </div>
+      <div class="embed-card">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DC5okjHRCVq/" data-instgrm-version="14" style="margin:0; width:100%;"></blockquote>
+      </div>
+      <div class="embed-card">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DDn8v08p9RH/" data-instgrm-version="14" style="margin:0; width:100%;"></blockquote>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="big">21K+ views</div>
+      <p>The Y2K campaign's visual identity carried through from event branding to individual promo graphics — recognizable enough in a crowded feed to reach over 21,000 views.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Approach</div>
+      <h2>How the campaign came together</h2>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>Build the visual identity first</h4>
+        <p>Established the Y2K look — colors, textures, and typography — before producing individual posts, so every piece of content felt part of one campaign.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Design in Photoshop</h4>
+        <p>Used layered compositing, gradient overlays, and text effects in Photoshop to hit the early-2000s aesthetic the theme called for.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Coordinate with the event team</h4>
+        <p>Timed content drops around event milestones and stayed in sync with the organizing team so messaging matched what was actually happening on the ground.</p>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="skill-tag">Graphic Design</span>
+      <span class="skill-tag">Adobe Photoshop</span>
+      <span class="skill-tag">Content Strategy</span>
+      <span class="skill-tag">Social Media Marketing</span>
+      <span class="skill-tag">Event Branding</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>PERMIAS Seattle</strong> — Marketing &amp; Creative Content Specialist</div>
+    <div class="tools">Adobe Photoshop · Canva</div>
+  </div>
+</footer>
+
+<script async src="//www.instagram.com/embed.js"></script>
+
+</body>
+</html>
