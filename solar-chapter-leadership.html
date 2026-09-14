@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Chapter USA — Marketing &amp; PR Leadership</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #0d2b2b; --deep-teal: #0f4c4c; --teal: #17958a; --sky: #7fd8cf;
+    --pale-teal: #e6f7f5; --paper: #f7f9fd; --sun: #f2b134; --sun-soft: #fdf0d6;
+    --ink: #142033; --ink-soft: #4a5570; --line: #d8e3f7; --radius: 14px;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{ margin:0; background: var(--paper); color: var(--ink); font-family:'Manrope', -apple-system, sans-serif; font-size:16px; line-height:1.6; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; color: var(--navy); margin:0; line-height:1.15; }
+  p{ margin:0 0 1em 0; font-size:1rem; }
+  a{ color: var(--teal); }
+  .wrap{ max-width: 1080px; margin:0 auto; padding:0 32px; }
+
+  .hero{
+    background: radial-gradient(ellipse 900px 500px at 15% -10%, #1c6b63 0%, var(--navy) 55%, #051615 100%);
+    color: white; padding: 90px 0 70px; position: relative; overflow:hidden;
+  }
+  .hero::after{ content:""; position:absolute; right:-120px; bottom:-160px; width:420px; height:420px; border-radius:50%; background: radial-gradient(circle, rgba(242,177,52,0.30), transparent 70%); }
+  .back-link{ display:inline-flex; align-items:center; gap:8px; color:#c9ece7; font-weight:600; font-size:0.95rem; margin-bottom:26px; }
+  .back-link:hover{ color:white; }
+  .eyebrow-tag{ display:inline-flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:999px; font-size:0.9rem; color: var(--sky); margin-bottom:28px; }
+  .hero h1{ color:white; font-size: clamp(2.2rem, 5vw, 3.2rem); max-width: 18ch; letter-spacing:-0.01em; }
+  .hero .sub{ color:#c9ece7; font-size:1.2rem; max-width:58ch; margin-top:22px; }
+  .hero-stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:44px; }
+  .hero-stat{ background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding:18px 22px; min-width:160px; }
+  .hero-stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.5rem; color: var(--sky); font-weight:700; }
+  .hero-stat .lbl{ font-size:0.92rem; color:#bfe4de; margin-top:4px; }
+
+  section{ padding: 68px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .kicker{ color: var(--teal); font-weight:700; font-size:1rem; margin-bottom:10px; }
+  .section-head{ max-width:64ch; margin-bottom:36px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .section-head p{ color: var(--ink-soft); margin-top:12px; font-size:1.08rem; }
+
+  .card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:28px; }
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap:28px; }
+  @media (max-width: 820px){ .about-grid{ grid-template-columns:1fr; } }
+  .fact-list{ list-style:none; padding:0; margin:14px 0 0 0; }
+  .fact-list li{ display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid var(--line); font-size:0.98rem; }
+  .fact-list li:first-child{ border-top:none; }
+  .fact-list span:first-child{ color: var(--ink-soft); }
+  .fact-list span:last-child{ font-weight:600; color: var(--navy); text-align:right; }
+
+  .callout{ background: var(--navy); color:white; border-radius: var(--radius); padding:26px 30px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:6px; }
+  .callout .big{ font-family:'Space Grotesk', sans-serif; font-size:1.9rem; color: var(--sun); font-weight:700; max-width: 18ch; }
+  .callout p{ margin:0; color:#cfe9e4; max-width:46ch; font-size:1rem; }
+
+  .rec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; }
+  @media (max-width: 900px){ .rec-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns:1fr; } }
+  .rec-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; border-top:4px solid var(--teal); }
+  .rec-card h4{ font-size:1.05rem; margin-bottom:8px; }
+  .rec-card p{ font-size:0.95rem; color: var(--ink-soft); margin:0; }
+
+  .embed-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 22px; max-width: 760px; }
+  @media (max-width: 700px){ .embed-grid{ grid-template-columns: 1fr; max-width: 420px; margin:0 auto; } }
+  .embed-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; padding: 6px; }
+
+  .photo-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 800px){ .photo-grid{ grid-template-columns: 1fr; } }
+  .photo-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
+  .photo-card img{ width:100%; display:block; }
+  .photo-card .cap{ padding: 16px 18px; }
+  .photo-card .cap h4{ font-size:1rem; margin-bottom:6px; }
+  .photo-card .cap p{ font-size:0.92rem; color: var(--ink-soft); margin:0; }
+
+  .tag-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 18px; }
+  .skill-tag{ background: var(--pale-teal); color:#0f5a52; font-size:0.9rem; font-weight:700; padding:7px 15px; border-radius:999px; }
+
+  footer{ background: var(--navy); color:#c9ece7; padding:46px 0; font-size:0.95rem; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  footer strong{ color:white; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+    <div class="eyebrow-tag">Leadership · Marketing &amp; Public Relations · Oct 2025 – Present</div>
+    <h1>Bringing clean water closer to Desa Seo and SMK Binauni</h1>
+    <p class="sub">As Director of Marketing &amp; Public Relations at Solar Chapter USA, I lead the storytelling and outreach behind a project working to expand clean water access for Desa Seo village and SMK Binauni school in Indonesia.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">Desa Seo</div><div class="lbl">village clean water project</div></div>
+      <div class="hero-stat"><div class="num">SMK Binauni</div><div class="lbl">partner school</div></div>
+      <div class="hero-stat"><div class="num">Oct 2025 –</div><div class="lbl">present</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Role Overview</div>
+      <h2>Leading the story behind a cause I actually care about</h2>
+      <p>Solar Chapter USA is a nonprofit working to get clean water infrastructure to Desa Seo village and SMK Binauni school. As Director of Marketing &amp; Public Relations, I'm responsible for how that mission reaches the people who can support it. For the full picture of the organization's work, visit <a href="https://www.solarchapter.com/" target="_blank" rel="noopener">solarchapter.com ↗</a>.</p>
+    </div>
+    <div class="about-grid">
+      <div class="card">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">What I do</h3>
+        <p>I analyze campaign data to identify engagement trends and improve marketing performance, direct digital communications to support organizational initiatives and stakeholder engagement, and coordinate marketing projects with leadership to keep messaging consistent across teams.</p>
+        <p>Day to day, that means building out a content strategy across Reels, carousels, donation captions, and day-in-the-life posts — and making sure Solar Chapter's voice stays collaborative and community-centered rather than reading like a typical charity ask.</p>
+        <ul class="fact-list">
+          <li><span>Organization</span><span>Solar Chapter USA</span></li>
+          <li><span>Role</span><span>Director of Marketing &amp; Public Relations</span></li>
+          <li><span>Focus</span><span>Clean water access, Desa Seo &amp; SMK Binauni</span></li>
+          <li><span>Website</span><span><a href="https://www.solarchapter.com/" target="_blank" rel="noopener">solarchapter.com ↗</a></span></li>
+        </ul>
+      </div>
+      <div class="card" style="background: linear-gradient(160deg, var(--pale-teal), #f2fbfa); border:1px dashed var(--teal);">
+        <h3 style="font-size:1.05rem; color:#0f5a52; margin-bottom:10px;">Why this one matters</h3>
+        <p style="color:var(--ink-soft); font-size:0.98rem;">This is the project on my resume that feels the most personal — it's not just marketing metrics, it's clean water getting closer to a real village and a real school. Every post is an attempt to make that feel just as real to someone scrolling past it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Campaign Highlights</div>
+      <h2>Building a voice for the campaign</h2>
+      <p>The content strategy leans on a mix of formats and a deliberately un-charity-like tone — plus a real-world fundraiser to back it up.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>Multi-format content</h4>
+        <p>Reels, carousels, donation captions, and day-in-the-life posts, each suited to a different part of the story — from quick awareness to deeper context.</p>
+      </div>
+      <div class="rec-card">
+        <h4>A collaborative brand voice</h4>
+        <p>Refined Solar Chapter's tone to feel collaborative rather than charitable — casual, punchy, and centered on Desa Seo itself rather than the donor.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Solar Steps: Hike for Desa Seo</h4>
+        <p>Organized a fundraising hike at Discovery Park, turning the campaign from purely digital into an in-person community event.</p>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="skill-tag">Digital Marketing</span>
+      <span class="skill-tag">Content Strategy</span>
+      <span class="skill-tag">Public Relations</span>
+      <span class="skill-tag">Campaign Analytics</span>
+      <span class="skill-tag">Stakeholder Engagement</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Biggest Event</div>
+      <h2>Hike for Desa Seo</h2>
+      <p>Our biggest event to date — a fundraising hike held in solidarity with those who have hard access to clean water. Held April 18th, 2026, it turned the campaign from a feed people scroll past into something they showed up for in person.</p>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="hike-group-photo.jpg" alt="Group photo of everyone who joined the Hike for Desa Seo fundraiser, holding the event banner">
+        <div class="cap">
+          <h4>Everyone who joined us</h4>
+          <p>Our full group photo with everyone who showed up to hike in solidarity with Desa Seo.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="hike-officers-photo.jpg" alt="Photo of the Solar Chapter officers who organized the Hike for Desa Seo event">
+        <div class="cap">
+          <h4>The team behind it</h4>
+          <p>Our officers — behind everything that made this event come together and succeed.</p>
+        </div>
+      </div>
+    </div>
+    <div class="embed-grid" style="margin-top:22px; max-width:400px;">
+      <div class="embed-card" style="grid-column: 1 / -1;">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWpvqeSGB-j/" data-instgrm-version="14" style="margin:0; width:100%;"></blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">The Content</div>
+      <h2>See the actual posts</h2>
+      <p>Embedded live from Instagram — click through for the full post.</p>
+    </div>
+    <div class="embed-grid">
+      <div class="embed-card">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWeyGIXFW33/" data-instgrm-version="14" style="margin:0; width:100%;"></blockquote>
+      </div>
+      <div class="embed-card">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZJinyOG7ao/" data-instgrm-version="14" style="margin:0; width:100%;"></blockquote>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="big">A cause worth telling well</div>
+      <p>Getting clean water closer to Desa Seo and SMK Binauni only works if enough people care to support it — that's the job this content is doing.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Solar Chapter USA</strong> — Director of Marketing &amp; Public Relations</div>
+    <div class="tools">Content Strategy · Campaign Analytics · Public Relations</div>
+  </div>
+</footer>
+
+<script async src="//www.instagram.com/embed.js"></script>
+
+</body>
+</html>
