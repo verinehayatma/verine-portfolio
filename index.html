@@ -124,6 +124,22 @@
   .btn.ghost{ background: transparent; border: 2px solid var(--blue); color: var(--blue); }
   .btn.ghost:hover{ background: var(--pale-blue); }
 
+  .skills-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 900px){ .skills-grid{ grid-template-columns: 1fr; } }
+  .skill-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; }
+  .skill-card h4{ font-size:1.02rem; margin-bottom:14px; color: var(--deep-blue); }
+  .skill-pills{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skill-pill{ background: var(--pale-blue); color: var(--deep-blue); font-size:0.88rem; font-weight:700; padding:6px 13px; border-radius:999px; }
+
+  .cert-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 26px; }
+  @media (max-width: 800px){ .cert-grid{ grid-template-columns: 1fr; } }
+  .cert-card{ background:white; border:1px solid var(--line); border-left:4px solid var(--ember); border-radius: var(--radius); padding:20px 22px; }
+  .cert-card h4{ font-size:1rem; margin-bottom:4px; }
+  .cert-card .meta{ color: var(--ink-soft); font-size:0.9rem; }
+  .cert-card .desc{ color: var(--ink-soft); font-size:0.92rem; margin-top:10px; margin-bottom:0; }
+  .cert-card.placeholder{ border-left-color: var(--line); background: repeating-linear-gradient(135deg, #fafbfe, #fafbfe 10px, #f1f4fb 10px, #f1f4fb 20px); }
+  .cert-card.placeholder .meta{ color: #97a3bd; }
+
   footer{ background: var(--navy); color: #c7d8f5; padding: 40px 0; font-size: 0.95rem; }
   footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap: 16px; align-items:center; }
   footer strong{ color: white; }
@@ -137,6 +153,7 @@
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -231,6 +248,71 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Skills &amp; Certifications</div>
+      <h2>What I bring to the table</h2>
+      <p>Skills built across coursework, internships, and the projects on this site.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4>Technical</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">SPSS</span>
+          <span class="skill-pill">R / RStudio</span>
+          <span class="skill-pill">Microsoft Excel</span>
+          <span class="skill-pill">WordPress</span>
+          <span class="skill-pill">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h4>Marketing &amp; Design</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Canva</span>
+          <span class="skill-pill">Adobe Photoshop</span>
+          <span class="skill-pill">Social Media Marketing</span>
+          <span class="skill-pill">Content Strategy</span>
+          <span class="skill-pill">Digital Marketing</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h4>Data &amp; Analytics</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Data Visualization</span>
+          <span class="skill-pill">Survey Analysis</span>
+          <span class="skill-pill">Regression Analysis</span>
+          <span class="skill-pill">Statistical Analysis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cert-grid">
+      <div class="cert-card">
+        <h4>Market Research Simternship®</h4>
+        <div class="meta">Stukent · Completed November 18, 2025</div>
+        <p class="desc">Simulated market research experience covering survey design, sampling plan selection, focus group guides, cross-tabulation analysis, and translating findings into strategic recommendations.</p>
+      </div>
+      <div class="cert-card">
+        <h4>Manage GA4 Data and Learn to Read Reports</h4>
+        <div class="meta">LinkedIn Learning · Completed November 20, 2025</div>
+        <p class="desc">Learned to manage Google Analytics 4 data and interpret reports to draw actionable marketing insights.</p>
+      </div>
+      <div class="cert-card">
+        <h4>Get Started Using Google Analytics</h4>
+        <div class="meta">LinkedIn Learning · Completed November 11, 2025</div>
+        <p class="desc">Learned the fundamentals of setting up a Google Analytics account and understanding key tracking and reporting features.</p>
+      </div>
+      <div class="cert-card">
+        <h4>Innovation Implementation</h4>
+        <div class="meta">Harvard ManageMentor, Harvard Business Publishing · April 28, 2025</div>
+        <p class="desc">Completed Harvard Business Publishing's course on turning innovative ideas into practical, implemented outcomes within an organization.</p>
+      </div>
     </div>
   </div>
 </section>
