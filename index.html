@@ -128,7 +128,8 @@
   .skills-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   @media (max-width: 900px){ .skills-grid{ grid-template-columns: 1fr; } }
   .skill-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:24px; }
-  .skill-card h4{ font-size:1.02rem; margin-bottom:14px; color: var(--deep-blue); }
+  .skill-card h4{ font-size:1.02rem; margin-bottom:4px; color: var(--deep-blue); }
+  .skill-card .skill-note{ color: var(--ink-soft); font-size:0.88rem; margin-bottom:14px; }
   .skill-pills{ display:flex; flex-wrap:wrap; gap:8px; }
   .skill-pill{ background: var(--pale-blue); color: var(--deep-blue); font-size:0.88rem; font-weight:700; padding:6px 13px; border-radius:999px; }
 
@@ -273,10 +274,13 @@
     <div class="skills-grid">
       <div class="skill-card">
         <h4>Technical</h4>
+        <p class="skill-note">R/RStudio from a Data Management course covering base R, the tidyverse, data cleaning, joins, and functions</p>
         <div class="skill-pills">
           <span class="skill-pill">Tableau</span>
           <span class="skill-pill">SPSS</span>
           <span class="skill-pill">R / RStudio</span>
+          <span class="skill-pill">Tidyverse</span>
+          <span class="skill-pill">Data Management</span>
           <span class="skill-pill">Microsoft Excel</span>
           <span class="skill-pill">WordPress</span>
           <span class="skill-pill">HTML/CSS</span>
@@ -296,8 +300,10 @@
         <h4>Data &amp; Analytics</h4>
         <div class="skill-pills">
           <span class="skill-pill">Data Visualization</span>
+          <span class="skill-pill">Data Cleaning &amp; Wrangling</span>
           <span class="skill-pill">Survey Analysis</span>
           <span class="skill-pill">Regression Analysis</span>
+          <span class="skill-pill">t-Tests &amp; ANOVA</span>
           <span class="skill-pill">Statistical Analysis</span>
           <span class="skill-pill">Python</span>
           <span class="skill-pill">K-Means Clustering</span>
