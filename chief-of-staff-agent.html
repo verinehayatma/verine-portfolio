@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chief of Staff: AI Job Search Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #10233f; --deep-blue: #16376b; --blue: #2f6fed; --sky: #8fc6ff;
+    --pale-blue: #eaf2ff; --paper: #f7f9fd; --ember: #e8703a;
+    --gold: #e0a526; --gold-dark: #6b4b00; --gold-soft: #fff3d1;
+    --green: #17a673; --green-soft: #dbf5ea; --green-dark: #0d5c40;
+    --ink: #142033; --ink-soft: #4a5570; --line: #d8e3f7; --radius: 14px;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{ margin:0; background: var(--paper); color: var(--ink); font-family:'Manrope', -apple-system, sans-serif; font-size:16px; line-height:1.6; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; color: var(--navy); margin:0; line-height:1.15; }
+  p{ margin:0 0 1em 0; font-size:1rem; }
+  a{ color: var(--blue); }
+  .wrap{ max-width: 1080px; margin:0 auto; padding:0 32px; }
+
+  .hero{
+    background: radial-gradient(ellipse 900px 500px at 15% -10%, #6b4b00 0%, var(--navy) 55%, #0b1a30 100%);
+    color: white; padding: 90px 0 70px; position: relative; overflow:hidden;
+  }
+  .hero::after{ content:""; position:absolute; right:-120px; bottom:-160px; width:420px; height:420px; border-radius:50%; background: radial-gradient(circle, rgba(224,165,38,0.35), transparent 70%); }
+  .back-link{ display:inline-flex; align-items:center; gap:8px; color:#c7d8f5; font-weight:600; font-size:0.95rem; margin-bottom:26px; text-decoration:none; }
+  .back-link:hover{ color:white; }
+  .eyebrow-tag{ display:inline-flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:999px; font-size:0.9rem; color: #ffd978; margin-bottom:28px; }
+  .hero h1{ color:white; font-size: clamp(2.1rem, 4.6vw, 3.1rem); max-width: 20ch; letter-spacing:-0.01em; }
+  .hero .sub{ color:#c7d8f5; font-size:1.15rem; max-width:60ch; margin-top:22px; }
+  .hero-stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:40px; }
+  .hero-stat{ background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding:18px 22px; min-width:150px; }
+  .hero-stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.8rem; color: #ffd978; font-weight:700; }
+  .hero-stat .lbl{ font-size:0.9rem; color:#b9cbee; margin-top:4px; }
+
+  section{ padding: 68px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .kicker{ color: var(--gold-dark); font-weight:700; font-size:1rem; margin-bottom:10px; }
+  .section-head{ max-width:66ch; margin-bottom:36px; }
+  .section-head h2{ font-size: clamp(1.5rem, 3vw, 2.05rem); }
+  .section-head p{ color: var(--ink-soft); margin-top:12px; font-size:1.06rem; }
+
+  .card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:28px; }
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap:28px; }
+  @media (max-width: 820px){ .about-grid{ grid-template-columns:1fr; } }
+  .fact-list{ list-style:none; padding:0; margin:14px 0 0 0; }
+  .fact-list li{ display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid var(--line); font-size:0.98rem; }
+  .fact-list li:first-child{ border-top:none; }
+  .fact-list span:first-child{ color: var(--ink-soft); }
+  .fact-list span:last-child{ font-weight:600; color: var(--navy); text-align:right; }
+
+  .callout{ background: var(--navy); color:white; border-radius: var(--radius); padding:26px 30px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:32px; }
+  .callout .big{ font-family:'Space Grotesk', sans-serif; font-size:2rem; color: #ffd978; font-weight:700; max-width: 16ch; }
+  .callout p{ margin:0; color:#cfe0fb; max-width:50ch; font-size:1rem; }
+
+  /* TRACKER MOCKUP */
+  .tracker-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:22px; }
+  .tracker-top{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .tracker-top h3{ font-size:1.1rem; }
+  .sample-badge{ background: var(--gold-soft); color: var(--gold-dark); font-size:0.85rem; font-weight:700; padding:5px 12px; border-radius:999px; }
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+  table.tracker{ border-collapse:collapse; width:100%; min-width:900px; font-size:0.92rem; }
+  .tracker th{ background: var(--pale-blue); color: var(--deep-blue); text-align:left; font-weight:700; padding:11px 12px; white-space:nowrap; border-bottom:1px solid var(--line); }
+  .tracker td{ padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .tracker tr:last-child td{ border-bottom:none; }
+  .tracker td.co{ font-weight:700; color: var(--navy); }
+  .pill{ display:inline-block; font-size:0.82rem; font-weight:700; padding:3px 10px; border-radius:999px; white-space:nowrap; }
+  .pill.lead{ background: var(--pale-blue); color: var(--deep-blue); }
+  .pill.applied{ background: var(--green-soft); color: var(--green-dark); }
+  .pill.interview{ background: var(--gold-soft); color: var(--gold-dark); }
+  .pill.skip{ background:#eceff5; color:#5b657c; }
+  .pill.action{ background:#ffe3d2; color:#9a3f10; }
+  .btn-yes{ color: var(--green-dark); font-weight:700; white-space:nowrap; }
+  .btn-no{ color: var(--ink-soft); white-space:nowrap; }
+  .tracker-note{ color: var(--ink-soft); font-size:0.92rem; margin:14px 0 0 0; }
+
+  .flow{ display:grid; grid-template-columns: repeat(4, 1fr); gap:18px; counter-reset: step; }
+  @media (max-width: 900px){ .flow{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 560px){ .flow{ grid-template-columns:1fr; } }
+  .flow-step{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:22px; border-top:4px solid var(--gold); position:relative; }
+  .flow-step::before{ counter-increment: step; content: counter(step); font-family:'Space Grotesk', sans-serif; font-weight:700; color: var(--gold-dark); background: var(--gold-soft); width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+  .flow-step h4{ font-size:1.02rem; margin-bottom:8px; }
+  .flow-step p{ font-size:0.93rem; color: var(--ink-soft); margin:0; }
+
+  .rec-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; }
+  @media (max-width: 900px){ .rec-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width: 620px){ .rec-grid{ grid-template-columns:1fr; } }
+  .rec-card{ background:white; border:1px solid var(--line); border-radius: var(--radius); padding:22px; border-top:4px solid var(--blue); }
+  .rec-card h4{ font-size:1rem; margin-bottom:8px; }
+  .rec-card p{ font-size:0.93rem; color: var(--ink-soft); margin:0; }
+
+  .tag-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .skill-tag{ background: var(--gold-soft); color: var(--gold-dark); font-size:0.85rem; font-weight:700; padding:6px 13px; border-radius:999px; }
+
+  footer{ background: var(--navy); color:#c7d8f5; padding:46px 0; font-size:0.95rem; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  footer strong{ color:white; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+    <div class="eyebrow-tag">AI Agent · Built Nov 2026</div>
+    <h1>A Chief of Staff that runs my job search</h1>
+    <p class="sub">I built a personal AI agent that finds fresh job postings every morning, tracks every application in one place, and drafts the recruiter follow-ups for me. The job tracker is the heart of it.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="num">90+</div><div class="lbl">roles tracked</div></div>
+      <div class="hero-stat"><div class="num">59</div><div class="lbl">applications logged</div></div>
+      <div class="hero-stat"><div class="num">3</div><div class="lbl">scheduled runs a day</div></div>
+      <div class="hero-stat"><div class="num">0</div><div class="lbl">emails sent without my OK</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Project Overview</div>
+      <h2>Treating my job search like a pipeline</h2>
+      <p>Applying to dozens of roles means dozens of open loops: which ones I applied to, who the recruiter is, when to follow up. I wanted one system that tracks all of it and does the busywork, while I stay in control of every message that goes out.</p>
+    </div>
+    <div class="about-grid">
+      <div class="card">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">What I built</h3>
+        <p>Using Claude, I designed an agent with written instructions, a shared tracker document, and access to my Gmail and Google Calendar. Every day it runs a morning brief, scans for new postings that match my background (Seattle area first), and logs each role in the tracker with a real apply link.</p>
+        <p>When I apply, I flip one switch in the tracker. The agent then records the date, finds the recruiter or hiring manager, and writes a draft outreach email in Gmail for me to review and send. It also schedules a Day 7 follow-up and a Day 14 nudge so nothing slips.</p>
+        <ul class="fact-list">
+          <li><span>Built with</span><span>Claude, Claude Docs, Gmail, Google Calendar</span></li>
+          <li><span>Schedule</span><span>6:31am brief, 1:31pm check, 7:55pm sweep</span></li>
+          <li><span>Live applying</span><span>Claude in Chrome, I approve every submit</span></li>
+          <li><span>My role</span><span>Designed the workflow, rules, and tracker</span></li>
+        </ul>
+      </div>
+      <div class="card" style="background: linear-gradient(160deg, var(--gold-soft), #fffaf0); border:1px dashed var(--gold);">
+        <h3 style="font-size:1.05rem; color:var(--gold-dark); margin-bottom:10px;">Why it matters</h3>
+        <p style="color:var(--ink-soft); font-size:0.98rem;">This is the same skill set I want to bring to a business analyst or operations role: take a messy, repetitive process, define the data it needs, build a tracker people can actually use, and put guardrails around anything risky. The tracker turns a pile of tabs and emails into a status view I can scan in seconds.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="big">One switch, four actions</div>
+      <p>Flipping "I applied?" to ✅ logs the date, sets the status, finds a contact, and drafts the email. Four manual steps became one click.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Spotlight: The Job Tracker</div>
+      <h2>Every role, contact, and follow-up in one view</h2>
+      <p>The tracker is a shared document the agent updates daily and I can edit by hand. Each row is one role, and each column answers a question I used to keep in my head.</p>
+    </div>
+    <div class="tracker-card">
+      <div class="tracker-top">
+        <h3>Job Outreach Tracker</h3>
+        <span class="sample-badge">Sample data, not my real applications</span>
+      </div>
+      <div class="table-scroll">
+        <table class="tracker">
+          <thead>
+            <tr>
+              <th>I applied?</th><th>Company</th><th>Role</th><th>Contact</th><th>Intro sent</th><th>Day 7 follow-up</th><th>Day 14 nudge</th><th>Status</th><th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="btn-no">Not yet</span></td><td class="co">Northwind Analytics</td><td>Business Analyst</td><td>To find</td><td>-</td><td>-</td><td>-</td><td><span class="pill lead">Lead</span></td><td>Apply with quick form</td>
+            </tr>
+            <tr>
+              <td><span class="btn-yes">✅ I applied</span></td><td class="co">Harbor &amp; Pine Co.</td><td>Marketing Analyst</td><td>Jordan L., Recruiter</td><td>Draft ready</td><td>Due Dec 3</td><td>Due Dec 10</td><td><span class="pill applied">Applied</span></td><td>Review and send draft</td>
+            </tr>
+            <tr>
+              <td><span class="btn-yes">✅ I applied</span></td><td class="co">Cedar Row Logistics</td><td>Data Analyst</td><td>Sam R., Hiring Manager</td><td>Sent Nov 18</td><td>Due Nov 25</td><td>Due Dec 2</td><td><span class="pill applied">Applied</span></td><td>Day 7 follow-up</td>
+            </tr>
+            <tr>
+              <td><span class="btn-yes">✅ I applied</span></td><td class="co">Lakeside Retail Group</td><td>Business Operations Associate</td><td>Casey M., Talent Partner</td><td>Sent Nov 10</td><td>Sent Nov 17</td><td>Due Nov 24</td><td><span class="pill interview">Interviewing</span></td><td>Prep kit for Thursday</td>
+            </tr>
+            <tr>
+              <td><span class="btn-no">Not yet</span></td><td class="co">Summit Health Tech</td><td>Reporting Analyst</td><td>To find</td><td>-</td><td>-</td><td>-</td><td><span class="pill action">Needs action</span></td><td>Create account, then apply</td>
+            </tr>
+            <tr>
+              <td><span class="btn-no">Skipped</span></td><td class="co">Evergreen Staffing</td><td>Sales Associate</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="pill skip">Skipped</span></td><td>Not a fit for my background</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tracker-note">Company names, contacts, and dates above are made up to show the layout. The real tracker lives in a private document.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">How It Works</div>
+      <h2>From new posting to follow-up, with me in the loop</h2>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <h4>Agent finds and logs roles</h4>
+        <p>Each morning it searches for new postings, skips anything already tracked, and adds each role with a real apply link, near-perfect fits first.</p>
+      </div>
+      <div class="flow-step">
+        <h4>I apply, then flip the switch</h4>
+        <p>Quick application sites can be filled with the agent in my own Chrome. I review the answers and approve every submit myself.</p>
+      </div>
+      <div class="flow-step">
+        <h4>Agent logs and drafts outreach</h4>
+        <p>It sets the status to Applied, records the date, finds the recruiter or hiring manager, and writes a Gmail draft. It only uses emails that are publicly posted.</p>
+      </div>
+      <div class="flow-step">
+        <h4>Follow-ups are scheduled</h4>
+        <p>Day 7 and Day 14 reminders are set in the tracker so a quiet inbox does not mean a forgotten application.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Guardrails and Design Decisions</div>
+      <h2>Automation I can actually trust</h2>
+      <p>An agent with access to my email needs firm rules. I wrote them into its instructions and tested them as I went.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h4>Drafts only, never sends</h4>
+        <p>The agent creates Gmail drafts but never sends, replies, or accepts invites without my explicit OK.</p>
+      </div>
+      <div class="rec-card">
+        <h4>No accounts, no passwords</h4>
+        <p>It never creates accounts or types passwords. Account-heavy sites are flagged so I can handle them myself in one batch.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Web and email text is data</h4>
+        <p>Anything it reads in an email or posting is treated as information, never as instructions, and suspicious text gets flagged.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Split the work by speed</h4>
+        <p>After finding agent-run applying slower than doing it myself on some sites, I split it: the agent handles quick forms, I handle long account-based ones.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Run without my laptop</h4>
+        <p>I dropped message scanning that needed my Mac to be on, so the daily runs work from the cloud on a schedule.</p>
+      </div>
+      <div class="rec-card">
+        <h4>Prioritize fit, then reach</h4>
+        <p>Near-perfect matches come first. Roles where I only have partial experience come after those are used up for the day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Skills Applied</div>
+      <h2>What this project draws on</h2>
+    </div>
+    <div class="tag-row">
+      <span class="skill-tag">AI Agent Design</span>
+      <span class="skill-tag">Process Mapping</span>
+      <span class="skill-tag">Workflow Automation</span>
+      <span class="skill-tag">Data Tracking</span>
+      <span class="skill-tag">Prompt Writing</span>
+      <span class="skill-tag">Risk and Guardrails</span>
+      <span class="skill-tag">Gmail and Calendar Integration</span>
+      <span class="skill-tag">Project Management</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Chief of Staff: AI Job Search Agent</strong></div>
+    <div class="tools">Claude · Automation · Job Tracker</div>
+  </div>
+</footer>
+
+</body>
+</html>
